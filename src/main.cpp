@@ -12,13 +12,11 @@ int main(void){
     // Set game at constant speed (ie. loop 60 per sec)
     SetTargetFPS(60);
     Game game;
-
     while (!WindowShouldClose()){
     // 1. Event Handling
         game.HandleInput();        
         game.Update();
     // 2. Update Positions
-
     // - Detect collisions
     // 3. Drawing Objects
 
