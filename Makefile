@@ -25,8 +25,7 @@
 
 # Define required raylib variables
 PROJECT_NAME       ?= game
-RAYLIB_VERSION     ?= 3.0.0
-RAYLIB_API_VERSION ?= 300
+RAYLIB_VERSION     ?= 4.5.0
 RAYLIB_PATH        ?= ..\..
 
 # Define compiler path on Windows
@@ -369,9 +368,9 @@ SRC_DIR = src
 OBJ_DIR = obj
 
 # Define all object files from source files
-SRC = $(call rwildcard, *.c, *.cpp, *.h)
+SRC = $(call rwildcard, *.c, *.h)
 #OBJS = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
-OBJS ?= main.cpp
+OBJS ?= main.c
 
 # For Android platform we call a custom Makefile.Android
 ifeq ($(PLATFORM),PLATFORM_ANDROID)
