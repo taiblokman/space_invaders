@@ -19,6 +19,8 @@ class Game {
         void MoveAliens();
         void MoveDownAliens(int distance);
         void AlienShootLaser();
+        void CheckForCollisions();
+
         Spaceship spaceship;
         std::vector<Obstacle> obstacles;
         std::vector<Alien> aliens;

@@ -1,6 +1,9 @@
 #include "laser.hpp"
 #include <iostream>
 
+int laser_height = 15;
+int laser_width = 4;
+
 Laser::Laser(Vector2 position, int speed)
 {
     this -> position = position;
@@ -11,9 +14,18 @@ Laser::Laser(Vector2 position, int speed)
 void Laser::Draw()
 {
     if (active) {
-        DrawRectangle(position.x, position.y, 4, 15, {243, 216, 63, 255 });
+        DrawRectangle(position.x, position.y, laser_width, laser_height, {243, 216, 63, 255 });
     }
     
+}
+Rectangle Laser::getRect()
+{
+    Rectangle rect;
+    rect.x = position.x;
+    rect.y = position.y;
+    rect.width = laser_width;
+    rect.height = laser_height;
+    return rect;
 }
 void Laser::Update()
 {

@@ -11,6 +11,7 @@ class Alien {
         static void UnloadImages();
         static Texture2D alienImages[3];
         int type; // different aliens
+        Rectangle getRect();
         Vector2 position;
     private:
 
