@@ -11,6 +11,8 @@ class Game {
         void Draw();
         void Update();
         void HandleInput();
+        int lives;
+        bool run;
 
     private:
         void DeleteInactiveLasers();
@@ -20,6 +22,9 @@ class Game {
         void MoveDownAliens(int distance);
         void AlienShootLaser();
         void CheckForCollisions();
+        void GameOver();
+        void ResetGame();
+        void InitGame();
 
         Spaceship spaceship;
         std::vector<Obstacle> obstacles;
@@ -30,6 +35,5 @@ class Game {
         float timeLastAlienFired;
         MysteryShip mysteryship;
         float mysteryShipSpawnInterval;
-        float timeLastSpawn;
-
+        float timeLastSpawn;        
 };
