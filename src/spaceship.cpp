@@ -1,11 +1,13 @@
 #include "spaceship.hpp"
 
-#define MOVE_DELTA 7
+int speed = 7;
+int gameWindowOffset = 25;
+int gameWindowOffsetBottom = 100;
 
 Spaceship::Spaceship(){
     image = LoadTexture("Graphics/spaceship.png");
     position.x = (GetScreenWidth() - image.width)/2;
-    position.y = GetScreenHeight() - image.height - 7;
+    position.y = GetScreenHeight() - image.height - 7 - gameWindowOffsetBottom;
     lastFireTime = 0.0;
 }
 
@@ -18,16 +20,16 @@ void Spaceship::Draw(){
 }
 
 void Spaceship::MoveLeft(){
-    position.x -= 7;
-    if (position.x < 0) {
-        position.x = 0;
+    position.x -= speed;
+    if (position.x < gameWindowOffset) {
+        position.x = gameWindowOffset;
     }
 }
 
 void Spaceship::MoveRight(){
-    position.x += 7;
-    if (position.x > GetScreenWidth() - image.width) {
-        position.x = GetScreenWidth() - image.width;
+    position.x += speed;
+    if (position.x > GetScreenWidth() - image.width - gameWindowOffset) {
+        position.x = GetScreenWidth() - image.width - gameWindowOffset;
     }
 }
 
@@ -47,6 +49,6 @@ Rectangle Spaceship::getRect()
 void Spaceship::Reset()
 {
     position.x = (GetScreenWidth() - image.width)/2.0f;
-    position.y = (GetScreenHeight() - image.height);
+    position.y = (GetScreenHeight() - image.height - gameWindowOffsetBottom);
     lasers.clear();
 }

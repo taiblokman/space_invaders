@@ -1,6 +1,9 @@
 #include "game.hpp"
 #include <iostream>
 
+int gameWindowOffsetAlien = 25;
+int gameWindowOffsetObstacles = 100;
+
 Game::Game(){
     InitGame();
 };
@@ -107,7 +110,7 @@ std::vector<Obstacle> Game::CreateObstacles()
 
     for(int i = 0; i < 4; i++) {
         float offsetX = ((i + 1) * gap) + (i * obstacleWidth);
-        obstacles.push_back(Obstacle({offsetX, float(GetScreenHeight() - 100)}));
+        obstacles.push_back(Obstacle({offsetX, float(GetScreenHeight() - 100 - gameWindowOffsetObstacles)}));
     }
     return obstacles;
 }
@@ -139,10 +142,10 @@ void Game::MoveAliens()
 {
     for(auto& alien: aliens){
         //check if any aliens touched the left or right screen boundaries
-        if(alien.position.x + alien.alienImages[alien.type - 1].width > GetScreenWidth()) {
+        if(alien.position.x + alien.alienImages[alien.type - 1].width > GetScreenWidth() - gameWindowOffsetAlien) {
             aliensDirection = -1;
             MoveDownAliens(4);
-        } if(alien.position.x < 0) {
+        } if(alien.position.x < 0 + gameWindowOffsetAlien) {
             aliensDirection = 1;
             MoveDownAliens(4);
         }
@@ -269,7 +272,7 @@ void Game::InitGame()
     timeLastSpawn = 0.0;
     mysteryShipSpawnInterval = GetRandomValue(10, 20);
     lives = 3;
-    run = true;    
+    run = true;
 }
 
 void Game::ResetGame(){
