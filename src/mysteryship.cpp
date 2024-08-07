@@ -1,13 +1,18 @@
 #include "mysteryship.hpp"
 
+float lastMysteryShipSoundTime = 0.0;
+
 MysteryShip::MysteryShip()
 {
     image = LoadTexture("Graphics/mystery.png");
     alive = false;
+    mysteryshipMoveSound = LoadSound("Sounds/ufo_lowpitch.wav");
 }
 
 MysteryShip::~MysteryShip(){
     UnloadTexture(image);
+    StopSound(mysteryshipMoveSound);
+    UnloadSound(mysteryshipMoveSound);
 }
 
 void MysteryShip::Spawn(){
@@ -34,11 +39,22 @@ Rectangle MysteryShip::getRect()
     }
 }
 
+void MysteryShip::Reset()
+{
+    alive = false;
+}
+
 void MysteryShip::Update(){
     if(alive){
+        if (GetTime() - lastMysteryShipSoundTime >= 0.8){        
+            PlaySound(mysteryshipMoveSound);
+            lastMysteryShipSoundTime = GetTime();
+            //std::cout << "play alien sound" << std::endl;
+        }           
         position.x += speed;
         if (position.x > GetScreenWidth()|| position.x + image.width < 0) {
             alive = false;
+            StopSound(mysteryshipMoveSound);
         }
     }
 }

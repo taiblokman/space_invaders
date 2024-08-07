@@ -42,5 +42,7 @@ class Game {
         MysteryShip mysteryship;
         float mysteryShipSpawnInterval;
         float timeLastSpawn;
-        Sound explosionSound;        
+        Sound explosionSound;
+        Sound alienMoveSound;  
+        Sound gameOverSound;  
 };

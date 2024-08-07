@@ -4,11 +4,13 @@
 
 int gameWindowOffsetAlien = 25;
 int gameWindowOffsetObstacles = 100;
+int lastAlienSoundTime = 0.0;
 
 Game::Game(){
-    music = LoadMusicStream("Sounds/music.ogg");
+    music = LoadMusicStream("Sounds/lights-out.ogg");
     explosionSound = LoadSound("Sounds/explosion.ogg");
-    PlayMusicStream(music);
+    alienMoveSound = LoadSound("Sounds/fastinvader1.wav");
+    gameOverSound = LoadSound("Sounds/JingleLose003.wav");
     InitGame();
 };
 
@@ -16,6 +18,8 @@ Game::~Game(){
     Alien::UnloadImages();
     UnloadMusicStream(music);
     UnloadSound(explosionSound);
+    UnloadSound(alienMoveSound);
+    UnloadSound(gameOverSound);
 }
 
 void Game::Update()
@@ -35,6 +39,12 @@ void Game::Update()
 
         MoveAliens(); 
         AlienShootLaser();
+        // PlaySound(alienMoveSound);
+        if (GetTime() - lastAlienSoundTime >= 1.0){        
+            PlaySound(alienMoveSound);
+            lastAlienSoundTime = GetTime();
+            //std::cout << "play alien sound" << std::endl;
+        }        
 
         for(auto& laser: alienLasers ){
             laser.Update(); 
@@ -155,7 +165,6 @@ void Game::MoveAliens()
             aliensDirection = 1;
             MoveDownAliens(4);
         }
-
         alien.Update(aliensDirection);
     }
 }
@@ -189,7 +198,7 @@ void Game::CheckForCollisions()
         auto iter = aliens.begin();
         while (iter != aliens.end()) {
             if(CheckCollisionRecs(iter -> getRect(), laser.getRect())){
-                PlaySound(explosionSound);
+                PlaySound(explosionSound);                
                 if(iter -> type == 1) score +=100;
                 if(iter -> type == 2) score +=200;
                 if(iter -> type == 3) score +=300;
@@ -230,7 +239,9 @@ void Game::CheckForCollisions()
             std::cout << "Spaceship Hit" << std::endl;
             lives--;
             if(lives == 0) {
+                StopMusicStream(music);
                 GameOver();
+                PlaySound(gameOverSound);
             }
         }
         // next check if we hit any blocks/obstacles
@@ -265,7 +276,9 @@ void Game::CheckForCollisions()
         // check if alien hit the spaceship
         if(CheckCollisionRecs(alien.getRect(), spaceship.getRect())){
             std::cout << "Spaceship hit by Alien" << std::endl;
+            StopMusicStream(music);
             GameOver();
+            PlaySound(gameOverSound);
         }
     }
 
@@ -283,7 +296,7 @@ void Game::InitGame()
     aliens = CreateAliens(); 
     aliensDirection = 1;
     timeLastAlienFired = 0.0;
-    timeLastSpawn = 0.0;
+    timeLastSpawn = GetTime();
     mysteryShipSpawnInterval = GetRandomValue(10, 20);
     lives = 3;
     score = 0;
@@ -291,6 +304,7 @@ void Game::InitGame()
     //if (highscore<=0) highscore = 0;
     highscore = loadHighscoreFromFile();
     run = true;
+    PlayMusicStream(music);
 }
 
 void Game::checkForHighScore()
@@ -327,4 +341,5 @@ void Game::ResetGame(){
     aliens.clear();
     alienLasers.clear();
     obstacles.clear();
+    mysteryship.Reset();
 }
