@@ -13,6 +13,9 @@ class Game {
         void HandleInput();
         int lives;
         bool run;
+        int score;
+        int highscore;
+        Music music;
 
     private:
         void DeleteInactiveLasers();
@@ -25,6 +28,9 @@ class Game {
         void GameOver();
         void ResetGame();
         void InitGame();
+        void checkForHighScore();
+        void saveHighScoreToFile(int highscore);
+        int loadHighscoreFromFile();
 
         Spaceship spaceship;
         std::vector<Obstacle> obstacles;
@@ -35,5 +41,6 @@ class Game {
         float timeLastAlienFired;
         MysteryShip mysteryship;
         float mysteryShipSpawnInterval;
-        float timeLastSpawn;        
+        float timeLastSpawn;
+        Sound explosionSound;        
 };
